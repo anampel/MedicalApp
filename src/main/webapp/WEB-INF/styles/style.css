@@ -1,0 +1,82 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : May 6, 2020, 10:44:13 AM
+    Author     : pkarampelas
+*/
+
+body {
+    margin: 0px;
+    
+}
+.header {
+    background-color: #327BAE;
+    color: #FFAA3C;
+    height: 55px;
+    padding: 5px;
+    
+}
+.apptitle {
+    padding: 10px;
+    float: left;
+}
+.apptitle h1 {
+    margin: 0px;
+    font-size: 20px;
+}
+
+.appuser {
+    float: right;
+    padding: 10px;
+    padding-top: 10px;
+    text-align: right;
+}
+
+.menu {
+    margin: 0px;
+    padding-left: 10px;
+    list-style-type: none;
+    background-color: #FFAA3C;
+    color: #fff;
+    overflow: hidden;
+}
+
+.menu li { float:left; }
+.menu li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+}
+.menu li a:hover {
+    color: #000;
+}
+.footer {
+    background-color: #327BAE;
+    color: #FFAA3C;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+}
+.wrapper {
+    padding: 10px;
+}
+
+
+#login .container #login-row #login-column #login-box {
+  margin-top: 0px;
+  max-width: 600px;
+  height: 320px;
+  border: 1px solid #9C9C9C;
+  background-color: #EAEAEA;
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+  
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+}
