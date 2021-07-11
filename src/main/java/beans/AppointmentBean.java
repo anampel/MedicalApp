@@ -1,8 +1,6 @@
 package beans;
 
 import DAOs.AppointmentDAO;
-import org.postgresql.util.PGmoney;
-
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
@@ -24,26 +22,13 @@ public class AppointmentBean extends PatientBean {
     }
 
     /**
-     *Just as Java doesn't support multiple inheritance, we created a private inner class that extends a second class DoctorBean.
-     * */
-    private static class Appointment1 extends DoctorBean {
-        /**
-         *Constructor
-         * */
-//        public Appointment1(String username, String name, String surname, String phone, String specialty) {
-//            super(username, name, surname, phone, specialty);
-//        }
-
-        public Appointment1() {
-        }
-    }
-    /**
      *Getters & Setters
      *
      *
      * @return*/
+
     public Date getDate() {
-        return date;
+         return date;
     }
 
     public void setDate(Date date) {
@@ -73,6 +58,7 @@ public class AppointmentBean extends PatientBean {
         AppointmentDAO appointmentDAO = new AppointmentDAO();
         appointmentDAO.insertNewAppointment(this);
     }
+
 }
 
 

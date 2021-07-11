@@ -78,7 +78,7 @@ public class PatientBean extends UserBean {
      * */
     public AppointmentBean searchAppointmentHistory(String username) throws SQLException, ClassNotFoundException {
         AppointmentDAO appointmentDAO = new AppointmentDAO();
-        AppointmentBean appointmentBean = appointmentDAO.findAppointment(username);
+        AppointmentBean appointmentBean = (AppointmentBean) appointmentDAO.findAppointment(this);
         return appointmentBean;
     }
 }

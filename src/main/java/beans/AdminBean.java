@@ -29,7 +29,7 @@ public class AdminBean extends UserBean {
      * @param phone The phone of the doctor
      * @param specialty The specialty of the doctor
      * */
-    public void insertNewDoctor(String username, String name, String surname, String phone,  String specialty){
+    public void insertNewDoactor(String username, String name, String surname, String phone,  String specialty){
 
     }
 

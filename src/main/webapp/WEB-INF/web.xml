@@ -32,7 +32,34 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>servlet.PatientServlet</servlet-name>
-        <url-pattern>/PatientServlet</url-pattern>
+        <url-pattern>/patient</url-pattern>
+    </servlet-mapping>
+<!--    Doctor servlet-->
+    <servlet>
+        <servlet-name>servlet.DoctorServlet</servlet-name>
+        <servlet-class>servlets.DoctorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>servlet.DoctorServlet</servlet-name>
+        <url-pattern>/doctor</url-pattern>
+    </servlet-mapping>
+    <!--    Admin servlet-->
+    <servlet>
+        <servlet-name>servlet.AdminServlet</servlet-name>
+        <servlet-class>servlets.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>servlet.AdminServlet</servlet-name>
+        <url-pattern>/admin</url-pattern>
+    </servlet-mapping>
+    <!--    Appointment servlet-->
+    <servlet>
+        <servlet-name>servlet.AppointmentServlet</servlet-name>
+        <servlet-class>servlets.AppointmentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>servlet.AppointmentServlet</servlet-name>
+        <url-pattern>/appointment</url-pattern>
     </servlet-mapping>
     <!--    DB access-->
     <resource-ref>

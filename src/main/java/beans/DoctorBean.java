@@ -38,7 +38,7 @@ public class DoctorBean extends UserBean {
      * @param name The name of the doctor
      * @param surname The surname of the doctor
      * */
-    public void availableDays(String username, String name, String surname) {
+    public void enterAvailableDays() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String date1 = dateFormat.format(new Date());
         System.out.println("The available day for the doctor " + name + " "+ surname + " is " + date1);

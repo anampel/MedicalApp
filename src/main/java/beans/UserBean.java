@@ -1,5 +1,7 @@
 package beans;
 
+import Utils.TrafficCounter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +12,9 @@ public class UserBean {
         String username;
         String name;
         String surname;
-        int usersCounter = 0;
         String phone;
+        String role;
+        String password;
         public static final String regexUsername = "^[a-zA-Z][a-zA-Z0-9_]{6,19}$";
         public static final String regexPhone = "\"^\\\\d{10}$\"$";
 
@@ -32,7 +35,7 @@ public class UserBean {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -55,13 +58,22 @@ public class UserBean {
         this.phone = phone;
     }
 
-    public int getUsersCounter() {
-        return usersCounter;
+    public String getRole() {
+        return role;
     }
 
-    public void setUsersCounter(int usersCounter) {
-        this.usersCounter = usersCounter;
+    public void setRole(String role) {
+        this.role = role;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /**
      * Users' sign in validation
      * @param username The username of the user

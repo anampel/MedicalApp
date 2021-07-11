@@ -6,7 +6,7 @@ import java.sql.*;
  * */
 public abstract class DBUtils {
     public Connection init() throws ClassNotFoundException, SQLException {
-        String jdbcURL = "jdbc:postgresql://localhost:5432/medicalappointments";
+        String jdbcURL = "jdbc:postgresql://localhost:5432/medicalAppointments1";
         String dbUser = "postgres";
         String dbPassword = "anampel21";
         Class.forName("org.postgresql.Driver");

@@ -3,6 +3,7 @@ package servlets;
 import beans.AppointmentBean;
 import beans.PatientBean;
 import DAOs.PatientDAO;
+import beans.UserBean;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,11 +16,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 
-import static beans.UserBean.regexPhone;
+import static Utils.SecurityRoles.*;
+
 /**
  * Servlet that manage information about Patients
  * */
-@WebServlet(name = "/PatientServlet")
+//@WebServlet("/PatientServlet")
 public class PatientServlet extends HttpServlet {
     /**
      * Constructor
@@ -36,28 +38,21 @@ public class PatientServlet extends HttpServlet {
      * */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String phone = request.getParameter("phone");
-        /**
-         *Input Validation
-         * */
-        if(username == null || phone == null){
-            createDynPage(response, "Fill in every field");
-        }
-        if (!phone.matches(regexPhone)) {
-            createDynPage(response, "Invalid username/phone number");
-        }
+       // String username = request.getParameter("username");
+        HttpSession session = request.getSession();
+        UserBean user = (UserBean)session.getAttribute("user");
+
         PatientDAO patientDAO = new PatientDAO();
         try {
-            PatientBean patient = patientDAO.findPatient(username, phone);
-            AppointmentBean appointment = patient.searchAppointmentHistory(username);
+            PatientBean patient = patientDAO.findPatient(user);
+//            AppointmentBean appointment = patient.searchAppointmentHistory(user.getUsername());
             String destPage = "/jsp/login.jsp";
 
             if (patient != null) {
-                HttpSession session = request.getSession();
+             //   HttpSession session = request.getSession();
                 session.setAttribute("patient", patient);
-                session.setAttribute("appointment", appointment);
-                destPage = "/jsp/home.jsp";
+//                session.setAttribute("appointment", appointment);
+                destPage = "/jsp/patient.jsp";
             }
 
             RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
@@ -68,19 +63,4 @@ public class PatientServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Create a dynamic error page with a provided error message
-     * @param message The message that provided from the doPost() method
-     * */
-    private void createDynPage(HttpServletResponse response, String message) throws IOException {
-        response.setContentType("text/html; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
-        out.println("<html>");
-        out.println("<head><title>Login Error</title></head>");
-        out.println("<body>");
-        out.println("<p>" + message + "</p>");
-        out.println("<a href=\"/MedicalApp/index.jsp\">Go to main page</a>");
-        out.println("</body></html>");
-    }
 }

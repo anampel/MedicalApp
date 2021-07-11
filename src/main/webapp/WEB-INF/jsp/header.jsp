@@ -22,9 +22,11 @@
                 <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-address-card fa-lg"></span>&nbsp Contact</a></li>
             </ul>
             <span class="navbar-text">
+                    <% if (session.getAttribute("user") == null) { %>
                     <a data-toggle="modal" class="btn btn-light" data-target="#loginModal">
                         Login
                     </a>
+                    <% } %>
             </span>
         </div>
     </div>
