@@ -10,6 +10,7 @@ import java.util.Scanner;
 * */
 
 public class AppointmentBean extends PatientBean {
+    String user_doctor;
     Date date ;
     String kind_of_examination;
     String participation;
@@ -19,6 +20,15 @@ public class AppointmentBean extends PatientBean {
      * */
 
     public AppointmentBean() {
+    }
+
+    public String getUser_doctor() {
+        initalPartic_Doctors();
+        return user_doctor;
+    }
+
+    public void setUser_doctor(String user_doctor) {
+        this.user_doctor = user_doctor;
     }
 
     /**
@@ -44,13 +54,40 @@ public class AppointmentBean extends PatientBean {
     }
 
     public String getParticipation() {
+        initalPartic_Doctors();
          return participation;
-    }
+     }
 
         public void setParticipation(String participation) {
         this.participation = participation;
 
     }
+    /**
+     * Initialize participation
+     * */
+    public void initalPartic_Doctors(){
+        if (getKind_of_examination().equals("Ears check")) {
+            setParticipation("10,00 €");
+            setUser_doctor("doctor");
+        }
+        else if (getKind_of_examination().equals("Endocrinological")) {
+            setParticipation("23,50 €");
+            setUser_doctor("fiyta");
+        }
+        else if (getKind_of_examination().equals("Cardiological")){
+            setParticipation("15,40 €");
+            setUser_doctor("kapa");
+        }
+        else if (getKind_of_examination().equals("Blood test")){
+            setParticipation("8,50 €") ;
+            setUser_doctor("mofihily1");
+        }else {
+            setParticipation("") ;
+            setUser_doctor("");
+        }
+
+    }
+
     /**
      *Create an appointment
      * */

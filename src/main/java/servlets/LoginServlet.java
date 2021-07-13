@@ -1,37 +1,46 @@
 package servlets;
 
+import Utils.Security;
 import Utils.SecurityRoles;
 import beans.UserBean;
 import DAOs.UserDAO;
+
 import java.io.*;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.RequestDispatcher;
+
 import static Utils.SecurityRoles.*;
 import static Utils.SecurityRoles.rolePatient;
 
 /**
  * Servlet that manage the Login of a user
- * */
+ */
 //@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
     /**
      * Constructor
-     * */
+     */
     public LoginServlet() {
         super();
     }
+
     /**
      * doPost() method handle the info from the user,
      * takes access to the DB through the DAO class
-     * */
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String password = null;
+        password = Security.hashPassword(request.getParameter("password"));
+        System.out.println("PWD:"+password);
+
 
         UserDAO userDao = new UserDAO();
 
@@ -40,7 +49,7 @@ public class LoginServlet extends HttpServlet {
             /**
              *Input Validation
              * */
-            if(username == null || password == null){
+            if (username == null || password == null) {
                 createDynPage(response, "Fill in every field");
             }
 
@@ -56,19 +65,17 @@ public class LoginServlet extends HttpServlet {
             }
 
 
-            if (SecurityRoles.roleAdmin.equals(user.getRole())){
+            if (SecurityRoles.roleAdmin.equals(user.getRole())) {
                 destPage = "/admin";
                 request.setAttribute("role", roleAdmin);
-            }
-            else if (SecurityRoles.roleDoctor.equals(user.getRole())){
+            } else if (SecurityRoles.roleDoctor.equals(user.getRole())) {
                 destPage = "/doctor";
                 request.setAttribute("role", roleDoctor);
-            }
-            else if (SecurityRoles.rolePatient.equals(user.getRole())){
+            } else if (SecurityRoles.rolePatient.equals(user.getRole())) {
                 destPage = "/patient";
                 request.setAttribute("role", rolePatient);
 
-            }else{
+            } else {
                 createDynPage(response, "Permission denied");
             }
 
@@ -79,6 +86,7 @@ public class LoginServlet extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String forward = "";
         String action = request.getParameter("action");
@@ -86,13 +94,13 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
 
-        if (action.equalsIgnoreCase("admin")){
+        if (action.equalsIgnoreCase("admin")) {
             forward = AdminPage;
             request.setAttribute("role", roleAdmin);
-        } else if (action.equalsIgnoreCase("doctor")){
+        } else if (action.equalsIgnoreCase("doctor")) {
             forward = DoctorPage;
             request.setAttribute("role", roleDoctor);
-        } else if (action.equalsIgnoreCase("patient")){
+        } else if (action.equalsIgnoreCase("patient")) {
             forward = PatientPage;
             request.setAttribute("role", rolePatient);
         } else {
@@ -104,8 +112,9 @@ public class LoginServlet extends HttpServlet {
 
     /**
      * Create a dynamic error page with a provided error message
+     *
      * @param message The message that provided from the doPost() method
-     * */
+     */
     private void createDynPage(HttpServletResponse response, String message) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");

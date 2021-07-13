@@ -32,27 +32,12 @@
                 <tr>
                     <th>Actions:</th>
                 </tr>
-<%--                <td><a href="appointment?action=findAppointment">View your appointments</a></td>--%>
-<%--                <td><a href="#date1">Enter new available day for appointment</a></td>--%>
-<%--                <td><a href="#date2" >Cancel an appointment</a></td>--%>
                 <tr>
                     <th>
                         <a class="btn btn-primary" href="appointment?action=findAppointment" role="button" aria-expanded="false" aria-controls="collapseExample">
                             View your appointments
                         </a>
                     </th>
-                    <td>
-                        <div class="collapse" id="collapse">
-                            <div class="card-body">
-<%--                                <form method="POST" action='${pageContext.request.contextPath}/appointment' name="enterform">--%>
-<%--                                    <input type="hidden" name="action" value="enterAvailableDays" />--%>
-<%--                                    <label for="date1">Date:</label>--%>
-<%--                                    <input type="date" id="date1" name="date1"></br>--%>
-<%--                                    <input type="submit" value="Submit">--%>
-<%--                                </form>--%>
-                            </div>
-                        </div>
-                    </td>
                 </tr>
                 <tr>
                     <th>
@@ -65,28 +50,14 @@
                             <div class="card-body">
                                 <form method="POST" action='${pageContext.request.contextPath}/appointment' name="enterform">
                                     <input type="hidden" name="action" value="enterAvailableDays" />
-                                    <label for="date1">Date:</label>
-                                    <input type="date" id="date1" name="date1"></br>
-                                    <input type="submit" value="Submit">
-                                </form>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <a class="btn btn-primary" data-toggle="collapse" href="#collapse2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            Cancel an appointment
-                        </a>
-                    </th>
-                    <td>
-                        <div class="collapse" id="collapse2">
-                            <div class="card-body">
-                                <form method="POST" action='${pageContext.request.contextPath}/appointment' name="cancelform">
-                                    <input type="hidden" name="action" value="cancelAppointment" />
-                                    <label for="date2">Date:</label>
-                                    <input type="date" id="date2" name="date2"></br>
-                                    <input type="submit" value="Submit">
+                                    <div class="form-group">
+                                        <label for="dateApp" class="text-info">date:</label><br>
+                                        <input type="date" name="dateApp" id="dateApp" class="form-control" size="45" required>
+                                    </div>
+                                    <br>
+                                    <div class="form-group">
+                                        <input type="submit" name="submit" class="btn btn-info btn-md" value="Submit">
+                                    </div>
                                 </form>
                             </div>
                         </div>

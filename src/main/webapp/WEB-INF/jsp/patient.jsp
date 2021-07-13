@@ -48,32 +48,43 @@
                 </tr>
                 </thead>
                 <tbody>
+
                     <tr>
-                        <th>Action</th>
-                        <td><a href="appointment?action=findAppointment">View your appointments</a></td>
-                        <td><a href="#date1">Enter new available day for appointment</a></td>
-                        <td><a href="#date2" >Cancel an appointment</a></td>
+                        <th>Actions:</th>
                     </tr>
                     <tr>
-                        </br>
-                        </br>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <th>
+                            <a class="btn btn-primary" href="appointment?action=findAppointment" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                View your appointments
+                            </a>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <a class="btn btn-primary" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Create an appointment
+                            </a>
+                        </th>
                         <td>
-                            <form method="POST" action='${pageContext.request.contextPath}/appointment' name="enterform">
-                                <input type="hidden" name="action" value="enterAvailableDays" />
-                                <label for="date1">Date:</label>
-                                <input type="date" id="date1" name="date1"></br>
-                                <input type="submit" value="Submit">
-                            </form>
-                        </td>
-                        <td>
-                            <form method="POST" action='${pageContext.request.contextPath}/appointment' name="cancelform">
-                                <input type="hidden" name="action" value="cancelAppointment" />
-                                <label for="date2">Date:</label>
-                                <input type="date" id="date2" name="date2"></br>
-                                <input type="submit" value="Submit">
-                            </form>
+                            <div class="collapse" id="collapse1">
+                                <div class="card-body">
+                                    <form method="POST" action='${pageContext.request.contextPath}/appointment' name="enterform">
+                                        <input type="hidden" name="action" value="createAppointment" />
+                                        <div class="form-group">
+                                            <label for="dateApp" class="text-info">date:</label><br>
+                                            <input type="date" name="dateApp" id="dateApp" class="form-control" size="45" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="examination" class="text-info">examination:</label><br>
+                                            <input type="text" name="examination" id="examination" class="form-control" size="45" required>
+                                        </div>
+                                        <br>
+                                        <div class="form-group">
+                                            <input type="submit" name="submit" class="btn btn-info btn-md" value="Submit">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

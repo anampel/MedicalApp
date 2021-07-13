@@ -1,8 +1,10 @@
 package servlets;
 
 import DAOs.AppointmentDAO;
+import DAOs.PatientDAO;
 import Utils.SecurityRoles;
 import beans.AppointmentBean;
+import beans.PatientBean;
 import beans.UserBean;
 
 import javax.servlet.RequestDispatcher;
@@ -13,18 +15,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-
-import static Utils.SecurityRoles.DoctorPage;
-import static Utils.SecurityRoles.PatientPage;
 
 /**
  * Servlet that manage information about Appointments
- * */
+ */
 //@WebServlet(name = "AppointmentServlet")
 public class AppointmentServlet extends HttpServlet {
 
@@ -33,40 +32,52 @@ public class AppointmentServlet extends HttpServlet {
         String action = request.getParameter("action");
         UserBean user = (UserBean) session.getAttribute("user");
         AppointmentDAO AppointmentDAO = new AppointmentDAO();
+        AppointmentBean app = new AppointmentBean();
+        PatientBean patientBean = new PatientBean();
+        PatientDAO patientDAO = new PatientDAO();
+        try {
+            patientBean = patientDAO.findPatient(user);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
-            AppointmentBean appointment = (AppointmentBean) AppointmentDAO.findAppointment(user);
-            if (appointment != null) {
-                session.setAttribute("appointment", appointment);
-            }
+            List<AppointmentBean> appointments = AppointmentDAO.findAppointment(user);
+
             /**
              * Take input the input date from the user and format it
              * */
-            String DateString = request.getParameter("date1");
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = null;
-            date = (Date) sdf.parse(DateString);
-//            appointment.setDate(date);
-//
-//            if (action.equalsIgnoreCase("cancelAppointment")) {
-//                AppointmentDAO.deleteAppointment(date);
-//            }
+            String examination = request.getParameter("examination");
+            String DateString = request.getParameter("dateApp");
+            Date date = Date.valueOf(DateString);
 
-//            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-//            dispatcher.forward(request, response);
-            if (action.equalsIgnoreCase("enterAvailableDays")) {
-                AppointmentDAO.deleteAppointment((java.sql.Date) date);
+            if (action.equalsIgnoreCase("createAppointment")) {
+                    //provided by the user-patient
+                    app.setDate(date);
+                    app.setKind_of_examination(examination);
+
+                    //provided from the patient table
+                    app.setUsername(patientBean.getUsername());
+                    app.setAmka(patientBean.getAmka());
+                    app.setAsfaleia(patientBean.getAsfaleia());
+                    app.initalPartic_Doctors();
+                    AppointmentDAO.insertNewAppointment(app);
             }
+            if (action.equalsIgnoreCase("enterAvailableDays")) {
+
+            }
+
+
 
         } catch (SQLException | ClassNotFoundException ex) {
             throw new ServletException(ex);
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
         request.setCharacterEncoding("UTF-8");
@@ -74,7 +85,7 @@ public class AppointmentServlet extends HttpServlet {
         UserBean user = (UserBean) session.getAttribute("user");
         AppointmentDAO AppointmentDAO = new AppointmentDAO();
         List<AppointmentBean> appointments = null;
-
+       // String destPage = "/appointment";
         if (action.equalsIgnoreCase("findAppointment")) {
             try {
                 appointments = AppointmentDAO.findAppointment(user);
@@ -83,17 +94,31 @@ public class AppointmentServlet extends HttpServlet {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            createDynPage(request, response ,appointments, user);
-
+            createDynPage(request, response, appointments, user);
         }
-}
+        if (action.equalsIgnoreCase("cancelAppointment")) {
+            String DateString = request.getParameter("date");
+            Date date = Date.valueOf(DateString);
+            AppointmentDAO.deleteAppointment(date, user.getUsername(), user.getRole());
+        }
+        try {
+            request.setAttribute("Appointments", AppointmentDAO.findAppointment(user));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Create a dynamic page which provide the Appointments to Doctors and Patients
+     *
      * @param appointments The AppointmentBean list object that provided from the doPost() method
-     * @param user The UserBean object
-     * */
+     * @param user         The UserBean object
+     */
     public void createDynPage(HttpServletRequest request, HttpServletResponse response, List<AppointmentBean> appointments, UserBean user) throws IOException {
-//        String destPage = "jsp/"
+
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
@@ -121,19 +146,24 @@ public class AppointmentServlet extends HttpServlet {
         out.println("<tr><h1>Appointments</h1></tr>");
         out.println("<tr>");
         out.println("<td>");
-        out.println("<tr><th><h2> Date   -    </h2></th>");
-        out.println("<th><h2> Examination   -    </h2</th>");
-        out.println("<th><h2> Participation </h2></th></tr>");
+        out.println("<tr>");
+        out.println("<th><h2> Date  </h2></th>");
+        if (SecurityRoles.rolePatient.equals(user.getRole())) {
+            out.println("<th><h2> - Examination   -    </h2</th>");
+            out.println("<th><h2> Participation </h2></th>");
+        }
+        out.println("</tr>");
         out.println("</td>");
         out.println("<td>");
         //Loop the Appointments object and provide the date for both Doctors and Patients
         for (AppointmentBean appointment : appointments) {
-            out.println("<tr style=\"text-align: center;\"><td>"+ appointment.getDate() + "</td>");
+            out.println("<tr style=\"text-align: center;\"><td>" + appointment.getDate() + "</td>");
             //If the user is Patient provide also the Kind of examination and the participation
-            if (SecurityRoles.rolePatient.equals(user.getRole())){
-                out.println("<td>"+ appointment.getKind_of_examination() + "</td>");
-                out.println("<td>"+ appointment.getParticipation() + "</td>");
+            if (SecurityRoles.rolePatient.equals(user.getRole())) {
+                out.println("<td>" + appointment.getKind_of_examination() + "</td>");
+                out.println("<td>" + appointment.getParticipation() + "</td>");
             }
+            out.println("<td><a href=\"appointment?action=cancelAppointment&date=" + appointment.getDate() + "\" role=\"button\">Delete</a></td>");
             out.println("</tr>");
         }
         out.println("</td>");
@@ -142,16 +172,7 @@ public class AppointmentServlet extends HttpServlet {
         out.println(" </table>");
         out.println(" </br>");
         out.println(" </br>");
-        if (SecurityRoles.rolePatient.equals(user.getRole())){
-//            destPage= PatientPage;
-            out.println("<a href=\"/patient\">Go to main page</a>");
-        }
-        if (SecurityRoles.roleDoctor.equals(user.getRole())){
-//            destPage = DoctorPage;
-            out.println("<a href=\"/doctor\">Go to main page</a>");
-        }
         out.println("</body></html>");
-//        RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-//        dispatcher.forward(request, response);
+
     }
 }
