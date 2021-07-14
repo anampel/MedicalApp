@@ -1,9 +1,5 @@
 package beans;
 
-import DAOs.AppointmentDAO;
-import org.postgresql.util.PGmoney;
-
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -12,6 +8,7 @@ import java.util.Scanner;
 * */
 
 public class AppointmentBean extends PatientBean {
+    String user_doctor;
     Date date ;
     String kind_of_examination;
     String participation;
@@ -23,27 +20,23 @@ public class AppointmentBean extends PatientBean {
     public AppointmentBean() {
     }
 
-    /**
-     *Just as Java doesn't support multiple inheritance, we created a private inner class that extends a second class DoctorBean.
-     * */
-    private static class Appointment1 extends DoctorBean {
-        /**
-         *Constructor
-         * */
-//        public Appointment1(String username, String name, String surname, String phone, String specialty) {
-//            super(username, name, surname, phone, specialty);
-//        }
-
-        public Appointment1() {
-        }
+    public String getUser_doctor() {
+        initalPartic_Doctors();
+        return user_doctor;
     }
+
+    public void setUser_doctor(String user_doctor) {
+        this.user_doctor = user_doctor;
+    }
+
     /**
      *Getters & Setters
      *
      *
      * @return*/
+
     public Date getDate() {
-        return date;
+         return date;
     }
 
     public void setDate(Date date) {
@@ -59,20 +52,40 @@ public class AppointmentBean extends PatientBean {
     }
 
     public String getParticipation() {
+        initalPartic_Doctors();
          return participation;
-    }
+     }
 
         public void setParticipation(String participation) {
         this.participation = participation;
 
     }
     /**
-     *Create an appointment
+     * Initialize participation
      * */
-    public void createAppointment() throws SQLException, ClassNotFoundException {
-        AppointmentDAO appointmentDAO = new AppointmentDAO();
-        appointmentDAO.insertNewAppointment(this);
+    public void initalPartic_Doctors(){
+        if (getKind_of_examination().equals("Ears check")) {
+            setParticipation("10,00 €");
+            setUser_doctor("doctor");
+        }
+        else if (getKind_of_examination().equals("Endocrinological")) {
+            setParticipation("23,50 €");
+            setUser_doctor("fiyta");
+        }
+        else if (getKind_of_examination().equals("Cardiological")){
+            setParticipation("15,40 €");
+            setUser_doctor("kapa");
+        }
+        else if (getKind_of_examination().equals("Blood test")){
+            setParticipation("8,50 €") ;
+            setUser_doctor("mofihily1");
+        }else {
+            setParticipation("") ;
+            setUser_doctor("");
+        }
+
     }
+
 }
 
 

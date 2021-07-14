@@ -1,8 +1,4 @@
 package beans;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *Initialize the user's values and reproduce them to its children
  * */
@@ -10,10 +6,9 @@ public class UserBean {
         String username;
         String name;
         String surname;
-        int usersCounter = 0;
         String phone;
-        public static final String regexUsername = "^[a-zA-Z][a-zA-Z0-9_]{6,19}$";
-        public static final String regexPhone = "\"^\\\\d{10}$\"$";
+        String role;
+        String password;
 
     /**
      *Constructor
@@ -32,7 +27,7 @@ public class UserBean {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -55,70 +50,21 @@ public class UserBean {
         this.phone = phone;
     }
 
-    public int getUsersCounter() {
-        return usersCounter;
+    public String getRole() {
+        return role;
     }
 
-    public void setUsersCounter(int usersCounter) {
-        this.usersCounter = usersCounter;
+    public void setRole(String role) {
+        this.role = role;
     }
-    /**
-     * Users' sign in validation
-     * @param username The username of the user
-     * @param phone The phone of the user */
-    public boolean signinValidation(String username, String phone){
-        boolean valid;
-        try{
-            if (username.matches(regexUsername)) {
-                System.out.println("Valid username");
-                valid = true;
-            } else {
-                System.out.println("Invalid username");
-                valid = false;
-            }
-            if (phone.matches(regexPhone)) {
-                System.out.println("Valid phone");
-                valid = true;
-            } else {
-                System.out.println("Invalid phone");
-                valid = false;
-            }
-        }catch (NullPointerException e)
-        {
-            System.out.println("Required username and phone");
-            valid = false;
-        }
-        return valid;
-    }
-    /**
-     * Users' log in validation
-     * @param username The username of the user
-     * @param phone The phone of the user */
-    public boolean login(String username, String phone) {
-        if (username != null && username != " " &&
-               phone != null && phone != " ") {
-            setUsername(username);
-            setPhone(phone);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    /**
-     *Users logout
-     * No parameters
-     * */
-    public void logout(){
 
+    public String getPassword() {
+        return password;
     }
-    /**
-     * Creates an Array list with username elements
-     * No parameters
-     * */
-    public ArrayList getUsernameList(){
-        List<String> list= new ArrayList<>();
-        list.add(getUsername());
-        return (ArrayList) list;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
+
 
 }

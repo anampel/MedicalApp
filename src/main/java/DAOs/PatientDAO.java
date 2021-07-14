@@ -1,27 +1,23 @@
 package DAOs;
-
 import beans.PatientBean;
-
+import beans.UserBean;
 import java.sql.*;
-
 /**
  * Data Access Object Class to manage information from DB about Patients
  * */
 public class PatientDAO extends DBUtils{
     /**
-     * Find all the characteristics of the Patient (from the DB) with the provided username and phone
+     * Find all the characteristics of the Patient (from the DB) with the provided username and password
      * and set the values to the corresponding Bean class
-     * @param username The username of the provided user
-     * @param phone The phone of the provided user
+     * @param user The user's object
      * */
-    public PatientBean findPatient(String username, String phone) throws SQLException,
+    public PatientBean findPatient(UserBean user) throws SQLException,
             ClassNotFoundException {
+        String username = user.getUsername();
         Connection connection = init();
-        String sql = "SELECT * FROM patient WHERE username = ? and phone = ?";
+        String sql = "SELECT * FROM patient WHERE username = ? ";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, username);
-        statement.setString(2, phone);
-
         ResultSet result = statement.executeQuery();
 
         PatientBean patient = null;
@@ -29,15 +25,49 @@ public class PatientDAO extends DBUtils{
         if (result.next()) {
             patient = new PatientBean();
             patient.setUsername(username);
-            patient.setName(result.getString("name"));
-            patient.setSurname(result.getString("surname"));
+            patient.setName(user.getName());
+            patient.setSurname(user.getSurname());
+            patient.setRole(user.getRole());
+            patient.setPhone(user.getPhone());
+            patient.setPassword(user.getPassword());
             patient.setAmka(result.getString("amka"));
             patient.setAsfaleia(result.getString("asfaleia"));
-            patient.setPhone(phone);
         }
-
         connection.close();
-
         return patient;
     }
+    /**
+     * Insert new patient to its table
+     * @param patient The patient's object
+     * */
+    public void insertPatient(PatientBean patient)
+            throws SQLException,
+            ClassNotFoundException {
+        Connection connection = init();
+        String sql = "INSERT INTO patient (username, amka, asfaleia) VALUES (?, ?, ?);";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, patient.getUsername());
+        statement.setString(2, patient.getAmka());
+        statement.setString(3, patient.getAsfaleia());
+        statement.executeUpdate();
+    }
+    /**
+     * Delete patient by it's username
+     * @param username The provide username to be deleted
+     * */
+    public void deletePatient(String username) {
+
+        try {
+            Connection connection = init();
+            String sql = ("delete from patient where username=?");
+            PreparedStatement statement = connection.prepareStatement(sql);
+            // Parameters start with 1
+            statement.setString(1, username);
+            statement.executeUpdate();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

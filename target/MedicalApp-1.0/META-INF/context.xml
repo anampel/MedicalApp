@@ -2,7 +2,7 @@
 <Context path="/">
     <Resource name="jdbc/postgres" auth="Container"
               type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
-              url="jdbc:postgresql://localhost:5432/medicalappointments"
+              url="jdbc:postgresql://localhost:5432/medicalAppointments1"
               username="postgres" password="anampel21" maxTotal="20" maxIdle="10"
               maxWaitMillis="-1"/>
 </Context>
