@@ -6,8 +6,6 @@ import Utils.SecurityRoles;
 import beans.AppointmentBean;
 import beans.PatientBean;
 import beans.UserBean;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-
 /**
  * Servlet that manage information about Appointments
  */
@@ -44,15 +39,12 @@ public class AppointmentServlet extends HttpServlet {
         }
 
         try {
-            List<AppointmentBean> appointments = AppointmentDAO.findAppointment(user);
-
             /**
-             * Take input the input date from the user and format it
+             * Take the input date from the user and format it
              * */
             String examination = request.getParameter("examination");
             String DateString = request.getParameter("dateApp");
             Date date = Date.valueOf(DateString);
-
             if (action.equalsIgnoreCase("createAppointment")) {
                     //provided by the user-patient
                     app.setDate(date);
@@ -69,12 +61,9 @@ public class AppointmentServlet extends HttpServlet {
 
             }
 
-
-
         } catch (SQLException | ClassNotFoundException ex) {
             throw new ServletException(ex);
         }
-
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -85,7 +74,6 @@ public class AppointmentServlet extends HttpServlet {
         UserBean user = (UserBean) session.getAttribute("user");
         AppointmentDAO AppointmentDAO = new AppointmentDAO();
         List<AppointmentBean> appointments = null;
-       // String destPage = "/appointment";
         if (action.equalsIgnoreCase("findAppointment")) {
             try {
                 appointments = AppointmentDAO.findAppointment(user);
@@ -94,7 +82,7 @@ public class AppointmentServlet extends HttpServlet {
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            createDynPage(request, response, appointments, user);
+            createDynPage(response, appointments, user);
         }
         if (action.equalsIgnoreCase("cancelAppointment")) {
             String DateString = request.getParameter("date");
@@ -108,7 +96,6 @@ public class AppointmentServlet extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -117,7 +104,7 @@ public class AppointmentServlet extends HttpServlet {
      * @param appointments The AppointmentBean list object that provided from the doPost() method
      * @param user         The UserBean object
      */
-    public void createDynPage(HttpServletRequest request, HttpServletResponse response, List<AppointmentBean> appointments, UserBean user) throws IOException {
+    public void createDynPage(HttpServletResponse response, List<AppointmentBean> appointments, UserBean user) throws IOException {
 
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");

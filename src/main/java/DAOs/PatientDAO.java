@@ -1,11 +1,7 @@
 package DAOs;
-
-import beans.DoctorBean;
 import beans.PatientBean;
 import beans.UserBean;
-
 import java.sql.*;
-
 /**
  * Data Access Object Class to manage information from DB about Patients
  * */
@@ -37,12 +33,13 @@ public class PatientDAO extends DBUtils{
             patient.setAmka(result.getString("amka"));
             patient.setAsfaleia(result.getString("asfaleia"));
         }
-
         connection.close();
-
         return patient;
     }
-
+    /**
+     * Insert new patient to its table
+     * @param patient The patient's object
+     * */
     public void insertPatient(PatientBean patient)
             throws SQLException,
             ClassNotFoundException {
@@ -54,7 +51,10 @@ public class PatientDAO extends DBUtils{
         statement.setString(3, patient.getAsfaleia());
         statement.executeUpdate();
     }
-
+    /**
+     * Delete patient by it's username
+     * @param username The provide username to be deleted
+     * */
     public void deletePatient(String username) {
 
         try {

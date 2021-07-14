@@ -1,8 +1,5 @@
 package DAOs;
-
-import beans.AppointmentBean;
 import beans.UserBean;
-
 import java.sql.*;
 
 /**
@@ -42,6 +39,11 @@ public class UserDAO extends DBUtils {
 
         return user;
     }
+
+    /**
+     * Insert new user to its table
+     * @param user The user's object
+     * */
     public void insertUser(UserBean user)
             throws SQLException,
             ClassNotFoundException {
@@ -56,9 +58,11 @@ public class UserDAO extends DBUtils {
         statement.setString(6, user.getPassword());
         statement.executeUpdate();
     }
-
+    /**
+     * Delete user by it's username
+     * @param username The provide username to be deleted
+     * */
     public void deleteUser(String username) {
-
         try {
             Connection connection = init();
             String sql = ("delete from users where username=?");

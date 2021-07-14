@@ -1,8 +1,6 @@
 package servlets;
-
 import DAOs.*;
 import beans.*;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,9 +10,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-
 import static Utils.SecurityRoles.*;
-
 /**
  * Servlet that manage information about admins
  * */
@@ -137,7 +133,6 @@ public class AdminServlet extends HttpServlet {
         }
 
     }
-
     /**
      * Create a dynamic error page with a provided error message
      * @param message The message that provided from the doPost() method
@@ -150,7 +145,6 @@ public class AdminServlet extends HttpServlet {
         out.println("<head><title>Error</title></head>");
         out.println("<body>");
         out.println("<p>" + message + "</p>");
-//        out.println("<a href=\"/MedicalApp/index.jsp\">Go to main page</a>");
         out.println("</body></html>");
     }
 

@@ -12,7 +12,7 @@ import java.sql.*;
  * */
 public class AdminDAO extends DBUtils{
     /**
-     * Find all the characteristics of the admin (from the DB) with the provided username and password
+     * Find all the characteristics of the admin table with the provided user object
      * and set the values to the corresponding Bean class
      * @param user The user's object
      * */

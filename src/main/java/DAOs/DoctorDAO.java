@@ -1,18 +1,16 @@
 package DAOs;
 import beans.DoctorBean;
 import beans.UserBean;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.*;
 /**
  * Data Access Object Class to manage information from DB about doctors
  * */
 public class DoctorDAO extends DBUtils{
     /**
-     * Find all the characteristics of the doctor (from the DB) with the provided username and password
+     * Find all the characteristics of the doctor table with the provided user object
      * and set the values to the corresponding Bean class
      * @param user The user's object
      * */
@@ -40,7 +38,10 @@ public class DoctorDAO extends DBUtils{
         connection.close();
         return doctor;
     }
-
+    /**
+     * Insert new doctor to its table
+     * @param doctor The doctor's object
+     * */
     public void insertDoctor(DoctorBean doctor)
             throws SQLException,
             ClassNotFoundException {
@@ -51,6 +52,11 @@ public class DoctorDAO extends DBUtils{
         statement.setString(2, doctor.getSpecialty());
         statement.executeUpdate();
     }
+
+    /**
+     * Delete doctor by it's username
+     * @param username The provide username to be deleted
+     * */
     public void deleteDoctor(String username) {
 
         try {

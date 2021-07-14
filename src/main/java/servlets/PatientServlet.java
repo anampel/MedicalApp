@@ -38,20 +38,16 @@ public class PatientServlet extends HttpServlet {
      * */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       // String username = request.getParameter("username");
         HttpSession session = request.getSession();
         UserBean user = (UserBean)session.getAttribute("user");
 
         PatientDAO patientDAO = new PatientDAO();
         try {
             PatientBean patient = patientDAO.findPatient(user);
-//            AppointmentBean appointment = patient.searchAppointmentHistory(user.getUsername());
             String destPage = "/jsp/login.jsp";
 
             if (patient != null) {
-             //   HttpSession session = request.getSession();
                 session.setAttribute("patient", patient);
-//                session.setAttribute("appointment", appointment);
                 destPage = "/jsp/patient.jsp";
             }
 

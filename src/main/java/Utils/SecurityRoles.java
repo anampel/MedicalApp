@@ -1,5 +1,8 @@
 package Utils;
 
+/**
+ * SecurityRoles Class define the roles and the destination pages per user
+ * */
 public abstract class SecurityRoles {
     /**
      *Roles

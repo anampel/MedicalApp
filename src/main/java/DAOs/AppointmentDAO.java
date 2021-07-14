@@ -6,13 +6,9 @@ import beans.UserBean;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
 /**
  * Data Access Object Class to manage information from DB about Appointments
  * */
-
-
 
 public class AppointmentDAO extends DBUtils{
 
@@ -78,8 +74,10 @@ public class AppointmentDAO extends DBUtils{
         }
 
     /**
-     * Delete an appointment from the DB for the given date
+     * Delete an appointment from the appointment table
      * @param date The date of the appointment
+     * @param username The username of the appointment
+     * @param role The role for which the deletion will be take place
      * */
 
     public static String deleteDoctor = "DELETE FROM appointment where user_doctor = ? and  date=?";

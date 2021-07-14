@@ -1,7 +1,5 @@
 package beans;
 
-import DAOs.AppointmentDAO;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -86,14 +84,6 @@ public class AppointmentBean extends PatientBean {
             setUser_doctor("");
         }
 
-    }
-
-    /**
-     *Create an appointment
-     * */
-    public void createAppointment() throws SQLException, ClassNotFoundException {
-        AppointmentDAO appointmentDAO = new AppointmentDAO();
-        appointmentDAO.insertNewAppointment(this);
     }
 
 }

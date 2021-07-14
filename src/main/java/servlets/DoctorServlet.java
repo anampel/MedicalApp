@@ -1,6 +1,5 @@
 package servlets;
 
-import beans.AppointmentBean;
 import beans.DoctorBean;
 import DAOs.DoctorDAO;
 import beans.UserBean;
@@ -33,26 +32,20 @@ public class DoctorServlet extends HttpServlet {
      * */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // String username = request.getParameter("username");
         HttpSession session = request.getSession();
         UserBean user = (UserBean)session.getAttribute("user");
 
         DoctorDAO DoctorDAO = new DoctorDAO();
         try {
             DoctorBean doctor = DoctorDAO.findDoctor(user);
-//            AppointmentBean appointment = doctor.searchAppointmentHistory(user.getUsername());
             String destPage = "/jsp/login.jsp";
 
             if (doctor != null) {
-                //   HttpSession session = request.getSession();
                 session.setAttribute("doctor", doctor);
-//                session.setAttribute("appointment", appointment);
                 destPage = "/jsp/doctor.jsp";
             }
-
             RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
             dispatcher.forward(request, response);
-
         } catch (SQLException | ClassNotFoundException ex) {
             throw new ServletException(ex);
         }

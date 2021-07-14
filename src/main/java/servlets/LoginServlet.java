@@ -4,15 +4,11 @@ import Utils.Security;
 import Utils.SecurityRoles;
 import beans.UserBean;
 import DAOs.UserDAO;
-
 import java.io.*;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.Date;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.RequestDispatcher;
-
 import static Utils.SecurityRoles.*;
 import static Utils.SecurityRoles.rolePatient;
 
@@ -46,25 +42,22 @@ public class LoginServlet extends HttpServlet {
 
         try {
             UserBean user = userDao.findUser(username, password);
-            /**
-             *Input Validation
-             * */
+            //input validation
             if (username == null || password == null) {
                 createDynPage(response, "Fill in every field");
             }
 
             String destPage = "/jsp/login.jsp";
-
+            //set user's session including it's object
             if (user != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                destPage = "/jsp/home.jsp";
             } else {
                 String message = "Invalid username/password";
                 createDynPage(response, message);
             }
 
-
+            //set destination page after login according to the user's role
             if (SecurityRoles.roleAdmin.equals(user.getRole())) {
                 destPage = "/admin";
                 request.setAttribute("role", roleAdmin);
@@ -93,7 +86,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-
+        //set destination page after login according to the user's role
         if (action.equalsIgnoreCase("admin")) {
             forward = AdminPage;
             request.setAttribute("role", roleAdmin);
